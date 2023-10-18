@@ -3,34 +3,35 @@ package cl.ucn.disc.as;
 import io.ebean.DB;
 import io.ebean.Database;
 import lombok.extern.slf4j.Slf4j;
+import cl.ucn.disc.as.exceptions.SistemaException;
 import cl.ucn.disc.as.model.Persona;
+import cl.ucn.disc.as.services.Sistema;
+import cl.ucn.disc.as.services.SistemaImpl;
 
 /**
- * THe main.
- * @Author Nicolas
+ * Clase Main para probar funcionalidades del sistema.
  */
 @Slf4j
 public class Main {
+
     public static void main(String[] args) {
-        log.debug("Starting main");
+        log.debug("Starting main WEWEWEWEWEWE");
 
-        //Get database
-        Database db = DB.getDefault();
-        Persona persona = Persona.builder()
+        // Inicializar la base de datos de Ebean
+        Database database = DB.getDefault();
 
-                .rut(202135919)
-                .nombre("Nicolas")
-                .apellidos("Henriquez")
-                .email("nhp@gmail.com")
-                .telefono("56945078467")
-                .build();
+        // Crear una instancia del sistema
+        Sistema sistema = new SistemaImpl(database);
 
-        log.debug("The persona after: ${}", persona);
+        // Agregar una persona al sistema
+        try {
+            Persona persona = new Persona("202135919", "Nicolas", "Henriquez", "nhp@gmail.com", "56945078467");
+            sistema.add(persona);
+            log.debug("Persona agregada: {}", persona);
+        } catch (SistemaException e) {
+            log.error("Error al agregar persona al sistema", e);
+        }
 
-        // Save persona into database
-        db.save(persona);
-        log.debug("The persona before: ${}", persona);
         log.debug("Done.");
     }
-
 }
