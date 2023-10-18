@@ -48,26 +48,48 @@ public class SistemaImpl implements Sistema {
 
     @Override
     public Departamento add(Departamento departamento) {
-        return null;
+        try {
+            this.database.save(departamento);
+            return departamento;
+        } catch (PersistenceException ex) {
+            log.error("Error al agregar un departamento", ex);
+            throw new SistemaException("Error al agregar un departamento", ex);
+        }
     }
+
 
     @Override
     public Contrato realizarContrato(Persona duenio, Departamento departamento, Instant fechaPago) {
-        return null;
+        try {
+            Contrato contrato = new Contrato(duenio, departamento, fechaPago);
+
+            this.database.save(contrato);
+
+            return contrato;
+        } catch (PersistenceException ex) {
+            log.error("Error al realizar un contrato", ex);
+            throw new SistemaException("Error al realizar un contrato", ex);
+        }
     }
 
     @Override
     public List<Contrato> getContratos() {
-        return null;
+        List<Contrato> contratos = database.find(Contrato.class).findList();
+        return contratos;
     }
 
     @Override
     public List<Persona> getPersonas() {
-        return null;
+        List<Persona> personas = database.find(Persona.class).findList();
+        return personas;
     }
 
     @Override
     public List<Pago> getPagos(String rut) {
-        return null;
+        List<Pago> pagos = database.find(Pago.class)
+                .where()
+                .eq("rut", rut)
+                .findList();
+        return pagos;
     }
 }
