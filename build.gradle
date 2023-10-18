@@ -65,7 +65,7 @@ dependencies {
 
     // lombok
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "org.projectlombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     // logger
     implementation "ch.qos.logback:logback-core:${logbackVersion}"
