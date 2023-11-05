@@ -1,13 +1,10 @@
 package cl.ucn.disc.as;
 
-import cl.ucn.disc.as.model.Edificio;
-import io.ebean.DB;
-import io.ebean.Database;
+import cl.ucn.disc.as.ui.ApiRestServer;
+import cl.ucn.disc.as.ui.WebController;
 import lombok.extern.slf4j.Slf4j;
-import cl.ucn.disc.as.exceptions.SistemaException;
-import cl.ucn.disc.as.model.Persona;
-import cl.ucn.disc.as.services.Sistema;
-import cl.ucn.disc.as.services.SistemaImpl;
+import io.javalin.Javalin;
+
 
 /**
  * Clase Main para probar funcionalidades del sistema.
@@ -16,30 +13,18 @@ import cl.ucn.disc.as.services.SistemaImpl;
 public class Main {
 
     public static void main(String[] args) {
-        log.debug("Starting main WEWEWEWEWEWE");
 
-        Database database = DB.getDefault();
+        log.debug("Iniciando el sistema...");
 
-        Sistema sistema = new SistemaImpl(database);
+        log.debug("Library path : {}", System.getProperty("java.library.path"));
 
-        try {
-            Persona persona = new Persona("202135919", "Nicolas", "Henriquez", "nhp@gmail.com", "56945078467");
-            sistema.add(persona);
-            log.debug("Persona agregada: {}", persona);
-        } catch (SistemaException e) {
-            log.error("Error al agregar persona al sistema", e);
-        }
+        //Start the API Rest Server
+        Javalin app = ApiRestServer.start(7070,new WebController());
 
-        try {
-            Edificio edificio = new Edificio("Lomas del mar", "Pedro Aguirre Cerda 10585");
-            log.debug("Edificio before db: {}", edificio);
-        } catch (SistemaException e) {
-            log.error("Error al agregar edificio al sistema", e);
-        }
+        log.debug("Sistema deteniendose...");
 
+        app.stop();
 
-
-
-        log.debug("Done.");
+        log.debug("Sistema finalizado...");
     }
 }

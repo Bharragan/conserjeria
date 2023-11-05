@@ -87,10 +87,12 @@ public final class ApiRestServer {
             config.requestLogger.http((ctx, ms) -> {
                 log.debug("Served: {} in {} ms.", ctx.fullUrl(), ms);
             });
+            //enable debug logger
+            config.plugins.enableDevLogging();
         });
     }
 
-    public static void start(final Integer port, final RoutesConfigurator routesConfigurator) {
+    public static Javalin start(final Integer port, final RoutesConfigurator routesConfigurator) {
         if (port < 1024 || port > 65535) {
             log.error("Bad port: {}", port);
             throw new IllegalArgumentException("Bad port: " + port);
@@ -121,6 +123,6 @@ public final class ApiRestServer {
                 log.debug("ApiRestServer stopped.");
             });
         });
-        app.start(port);
+        return app.start(port);
     }
 }
