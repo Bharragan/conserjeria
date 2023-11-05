@@ -9,6 +9,7 @@ import cl.ucn.disc.as.model.Pago;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 public interface Sistema {
 
@@ -71,4 +72,5 @@ public interface Sistema {
      * @return La lista de pagos asociados a la persona.
      */
     List<Pago> getPagos(String rut);
+    Optional<Persona> getPersona(String rut);
 }

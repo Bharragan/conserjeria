@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.persistence.PersistenceException;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 public class SistemaImpl implements Sistema {
@@ -92,4 +93,15 @@ public class SistemaImpl implements Sistema {
                 .findList();
         return pagos;
     }
+    @Override
+    public Optional<Persona> getPersona(String rut) {
+        Persona persona = database.find(Persona.class)
+                .where()
+                .eq("rut", rut)
+                .findOne();
+
+        return Optional.ofNullable(persona);
+    }
+
+
 }
