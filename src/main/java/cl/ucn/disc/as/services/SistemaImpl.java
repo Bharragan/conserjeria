@@ -6,12 +6,17 @@ import cl.ucn.disc.as.model.Persona;
 import cl.ucn.disc.as.model.Contrato;
 import cl.ucn.disc.as.model.Pago;
 import cl.ucn.disc.as.model.Departamento;
+import com.github.javafaker.Faker;
+import com.github.javafaker.service.FakeValues;
+import com.github.javafaker.service.FakeValuesService;
+import com.github.javafaker.service.RandomService;
 import io.ebean.Database;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.PersistenceException;
 import java.time.Instant;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Slf4j
@@ -103,5 +108,32 @@ public class SistemaImpl implements Sistema {
         return Optional.ofNullable(persona);
     }
 
+    @Override
+    public void populate() {
+        {
+            Persona persona = Persona.builder()
+                    .rut("20213591-9")
+                    .nombre("NIcolas")
+                    .apellidos("Henriquez")
+                    .email("nhp@gmail.com")
+                    .telefono("1234567890")
+                    .build();
+            this.database.save(persona);
+        }
 
+        Locale locale = new Locale("es-CL");
+        FakeValuesService fvs = new FakeValuesService(locale, new RandomService());
+        Faker faker = new Faker(locale);
+        
+        for (int i = 0; i < 1000; i++) {
+            Persona persona = Persona.builder()
+                  .rut(fvs.bothify("#######-#"))
+                  .nombre(faker.name().firstName())
+                  .apellidos(faker.name().lastName())
+                  .email(fvs.bothify("???###@gmail.com"))
+                  .telefono(fvs.bothify("+569########"))
+                  .build();
+            this.database.save(persona);
+        }
+    }
 }

@@ -73,4 +73,6 @@ public interface Sistema {
      */
     List<Pago> getPagos(String rut);
     Optional<Persona> getPersona(String rut);
+
+    void populate();
 }
