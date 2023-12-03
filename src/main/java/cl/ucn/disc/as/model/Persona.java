@@ -1,17 +1,22 @@
 package cl.ucn.disc.as.model;
 
+import io.ebean.annotation.Cache;
 import io.ebean.annotation.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
-import java.util.List;
 
 /**
  * Persona Class
  */
-@ToString
+@Cache(enableQueryCache = true, nearCache = true)
+
+@Getter
+@ToString(callSuper = true)
+@AllArgsConstructor
 @Builder
 @Entity
 public class Persona extends BaseModel {
@@ -30,14 +35,6 @@ public class Persona extends BaseModel {
 
     @NotNull
     private String telefono;
-
-    public Persona(String rut, String nombre, String apellidos, String email, String telefono) {
-        this.rut = rut;
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.email = email;
-        this.telefono = telefono;
-    }
 
     public String getRut() {
         return rut;
@@ -78,4 +75,5 @@ public class Persona extends BaseModel {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+    
 }
