@@ -20,7 +20,9 @@ public final class WebController  implements RoutesConfigurator {
     private final Sistema sistema;
 
     public WebController(){
+
         this.sistema = new SistemaImpl(DB.getDefault());
+        this.sistema.populate();
     }
 
     @Override
@@ -32,10 +34,10 @@ public final class WebController  implements RoutesConfigurator {
         app.get("/", ctx -> {
             ctx.result("Welcome to conserjeria API REST");
         });
-        /*
+            /*
         Route Personas, get all personas
          */
-        app.get("personas",ctx -> {
+        app.get("/personas/",ctx -> {
             ctx.json(this.sistema.getPersonas());
         });
         /*

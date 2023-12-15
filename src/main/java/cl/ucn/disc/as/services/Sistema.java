@@ -13,6 +13,8 @@ import java.util.Optional;
 
 public interface Sistema {
 
+    void populate();
+
     /**
      * Agregar un edificio al sistema.
      *
@@ -74,5 +76,4 @@ public interface Sistema {
     List<Pago> getPagos(String rut);
     Optional<Persona> getPersona(String rut);
 
-    void populate();
 }

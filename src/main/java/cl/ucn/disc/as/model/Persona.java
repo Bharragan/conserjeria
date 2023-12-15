@@ -36,6 +36,23 @@ public class Persona extends BaseModel {
     @NotNull
     private String telefono;
 
+    public static class PersonaBuilder {
+
+        /**
+         * @return the Persona.
+         */
+        public Persona build() {
+            return new Persona(
+                    this.rut,
+                    this.nombre,
+                    this.apellidos,
+                    this.email,
+                    this.telefono);
+
+        }
+
+    }
+
     public String getRut() {
         return rut;
     }
